@@ -51,7 +51,8 @@ const render = () => {
             </span>
             <i data-lucide="circle-user" class="w-6 h-6 cursor-pointer hover:opacity-80 transition-opacity"></i>
             <button id="menu-toggle" class="md:hidden">
-              <i data-lucide="menu" id="menu-icon"></i>
+              <i data-lucide="menu" id="menu-icon-open"></i>
+              <i data-lucide="x" id="menu-icon-close" class="hidden"></i>
             </button>
           </div>
         </div>
@@ -261,7 +262,8 @@ const render = () => {
 const setupInteractions = () => {
   const menuToggle = document.getElementById('menu-toggle');
   const mobileMenu = document.getElementById('mobile-menu');
-  const menuIcon = document.getElementById('menu-icon');
+  const menuIconOpen = document.getElementById('menu-icon-open');
+  const menuIconClose = document.getElementById('menu-icon-close');
 
   let isOpen = false;
 
@@ -269,37 +271,38 @@ const setupInteractions = () => {
     isOpen = !isOpen;
     if (isOpen) {
       mobileMenu.classList.remove('hidden');
-      menuIcon.setAttribute('data-lucide', 'x');
+      menuIconOpen?.classList.add('hidden');
+      menuIconClose?.classList.remove('hidden');
     } else {
       mobileMenu.classList.add('hidden');
-      menuIcon.setAttribute('data-lucide', 'menu');
+      menuIconOpen?.classList.remove('hidden');
+      menuIconClose?.classList.add('hidden');
     }
-    createIcons({ icons: { Menu, X } });
   });
 };
 
 const setupAnimations = () => {
   // Hero animations
-  animate("#hero-sub", { opacity: 1, x: 0 }, { delay: 0.2 });
-  animate("#hero-title", { opacity: 1, y: 0 }, { delay: 0.4 });
-  animate("#hero-desc", { opacity: 1 }, { delay: 0.6 });
-  animate("#hero-btns", { opacity: 1, y: 0 }, { delay: 0.8 });
+  animate("#hero-sub", { opacity: [0, 1], y: [20, 0] }, { delay: 0.2, duration: 0.8 });
+  animate("#hero-title", { opacity: [0, 1], y: [20, 0] }, { delay: 0.4, duration: 0.8 });
+  animate("#hero-desc", { opacity: [0, 1], y: [20, 0] }, { delay: 0.6, duration: 0.8 });
+  animate("#hero-btns", { opacity: [0, 1], y: [20, 0] }, { delay: 0.8, duration: 0.8 });
 
   // Scroll animations
-  inView(".step-card", (info) => {
-    animate(info.target, { opacity: 1, y: 0 }, { delay: 0.2 });
+  inView(".step-card", (element) => {
+    animate(element, { opacity: [0, 1], y: [50, 0] }, { delay: 0.2, duration: 0.8 });
   });
 
-  inView("#vault-main", (info) => {
-    animate(info.target, { opacity: 1, scale: 1 });
+  inView("#vault-main", (element) => {
+    animate(element, { opacity: [0, 1], scale: [0.95, 1] }, { duration: 0.8 });
   });
 
-  inView(".vault-side", (info) => {
-    animate(info.target, { opacity: 1, x: 0 }, { delay: 0.2 });
+  inView(".vault-side", (element) => {
+    animate(element, { opacity: [0, 1], x: [50, 0] }, { delay: 0.2, duration: 0.8 });
   });
 
-  inView("#cta-title", (info) => {
-    animate(info.target, { opacity: 1, y: 0 });
+  inView("#cta-title", (element) => {
+    animate(element, { opacity: [0, 1], y: [30, 0] }, { duration: 0.8 });
   });
 };
 
